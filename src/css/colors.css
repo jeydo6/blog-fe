@@ -1,0 +1,38 @@
+:root {
+    --color-dark: #242424;
+    --color-light: #dbdbdb;
+    --color-code: #d7ba7d;
+    --color-link: #569bd4;
+    --color-border-20: #dbdbdb33;
+    --color-border-50: #dbdbdb80;
+}
+
+.text-color-dark {
+    color: var(--color-dark);
+}
+.text-color-light {
+    color: var(--color-light);
+}
+.text-color-code {
+    color: var(--color-code);
+}
+.text-color-link {
+    color: var(--color-link);
+}
+
+.bg-color-dark {
+    background-color: var(--color-dark);
+}
+.bg-color-light {
+    background-color: var(--color-light);
+}
+
+.text-color-25 {
+    opacity: 0.25;
+}
+.text-color-50 {
+    opacity: 0.5;
+}
+.text-color-75 {
+    opacity: 0.75;
+}

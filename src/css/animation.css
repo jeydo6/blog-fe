@@ -1,0 +1,14 @@
+.fade-in {
+    animation: 1s fade-in forwards;
+}
+
+@keyframes fade-in {
+    from {
+        scale: 1.05;
+        opacity: 0.0;
+    }
+    to {
+        scale: 1.0;
+        opacity: 1.0;
+    }
+}

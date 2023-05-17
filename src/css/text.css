@@ -1,0 +1,22 @@
+.text-start {
+    text-align: start;
+}
+.text-center {
+    text-align: center;
+}
+.text-end {
+    text-align: end;
+}
+
+.text-100 {
+    font-size: 1em;
+}
+.text-75 {
+    font-size: 0.75em;
+}
+.text-50 {
+    font-size: 0.5em;
+}
+.text-25 {
+    font-size: 0.25em;
+}
