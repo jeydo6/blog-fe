@@ -1,0 +1,17 @@
+﻿@model IEnumerable<Post>
+
+@{
+    Layout = "_PostsLayout";
+    ViewData["Title"] = "Posts";
+}
+
+@foreach (var item in Model)
+{
+    <div class="posts-content-item">
+        <a class="text-color-light" asp-area="" asp-controller="Posts" asp-action="Details" asp-route-url=@item.Url>
+            <h2>@item.Title</h2>
+        </a>
+        <p class="text-color-light">@Html.Raw(item.Description)</p>
+        <p class="text-color-link">@item.CreatedAt</p>
+    </div>
+}

@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<ItemGroup>
+		<PackageReference Include="FluentMigrator" Version="3.3.2" />
+		<PackageReference Include="FluentMigrator.Runner" Version="3.3.2" />
+		<PackageReference Include="linq2db" Version="5.2.2" />
+		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
+		<PackageReference Include="System.Data.SQLite.Core" Version="1.0.117" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Blog.Fe.Domain\Blog.Fe.Domain.csproj" />
+	</ItemGroup>
+
+</Project>

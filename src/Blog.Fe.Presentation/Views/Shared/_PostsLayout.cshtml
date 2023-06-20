@@ -1,0 +1,18 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+<div class="layout-posts">
+	<div class="layout-posts-sidebar">
+		<a class="text-color-light" asp-area="" asp-controller="Home" asp-action="Index">
+			<h2>Vladimir Deryagin</h2>			
+		</a>
+	</div>
+	<nav class="layout-posts-navbar">
+		<a class="text-color-light mt-3" asp-area="" asp-controller="Home" asp-action="Index">Overview</a>
+		<a class="text-color-light mt-3 nav-link-active" asp-area="" asp-controller="Posts" asp-action="Index">Posts</a>
+	</nav>
+	<div class="layout-posts-content">
+		@RenderBody()
+	</div>
+</div>

@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700;900&family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet"/>
+    <link href="~/css/animation.css" rel="stylesheet"/>
+    <link href="~/css/colors.css" rel="stylesheet"/>
+    <link href="~/css/containers.css" rel="stylesheet"/>
+    <link href="~/css/spacing.css" rel="stylesheet"/>
+    <link href="~/css/text.css" rel="stylesheet"/>
+    <link href="~/css/site.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="~/Blog.Fe.Presentation.styles.css" />
+    
+    <title>@ViewData["Title"] | Vladimir Deryagin</title>
+</head>
+<body class="bg-color-dark">
+<div class="container p-3 ml-auto mr-auto">
+    <main role="main">
+        @RenderBody()
+    </main>
+</div>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

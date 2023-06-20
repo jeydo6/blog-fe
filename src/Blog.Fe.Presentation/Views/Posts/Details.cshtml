@@ -1,0 +1,14 @@
+﻿@model Post
+
+@{
+    Layout = "_PostsLayout";
+    ViewData["Title"] = Model.Title;
+}
+
+<div class="posts-content-item">
+    <a class="text-color-light" asp-area="" asp-controller="Posts" asp-action="Details" asp-route-url=@Model.Url>
+        <h2>@Model.Title</h2>
+    </a>
+    <p class="text-color-light">@Html.Raw(Model.Description)</p>
+    <p class="text-color-link">@Model.CreatedAt</p>
+</div>
