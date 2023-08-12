@@ -1,4 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <InvariantGlobalization>true</InvariantGlobalization>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="prometheus-net.AspNetCore" Version="8.0.1" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Blog.Fe.Infrastructure\Blog.Fe.Infrastructure.csproj" />
   </ItemGroup>
