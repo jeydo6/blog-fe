@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Prometheus;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +29,12 @@ builder.Services
 		o.Password = settings.Password;
 	});
 
+builder.Services.AddSerilog(cfg => cfg
+	.ReadFrom.Configuration(builder.Configuration)
+	.Enrich.FromLogContext()
+	.WriteTo.Console()
+);
+
 builder.Services
 	.AddSingleton<IAuthorizationHandler, LocalOriginHandler>()
 	.AddAuthorization(o => o
@@ -38,6 +45,8 @@ builder.Services
 		}));
 
 var app = builder.Build();
+
+app.UseSerilogRequestLogging();
 
 if (!app.Environment.IsDevelopment())
 {
