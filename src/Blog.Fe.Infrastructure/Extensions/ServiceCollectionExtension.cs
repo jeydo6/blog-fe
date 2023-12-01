@@ -27,7 +27,7 @@ public static class ServiceCollectionExtension
 			.AddLogging(builder => builder.AddFluentMigratorConsole());
 		
 		services
-			.AddScoped<BlogFeDataContext>(_ => new BlogFeDataContext(connectionString));
+			.AddScoped(_ => new BlogFeDataContext(connectionString));
 
 		services.AddScoped<IPostRepository, PostRepository>();
 	}

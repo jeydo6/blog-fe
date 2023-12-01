@@ -1,18 +1,22 @@
 using System;
 using Blog.Fe.Infrastructure.Extensions;
 using Blog.Fe.Presentation.Authentication;
-using Blog.Fe.Presentation.Extensions;
 using Blog.Fe.Presentation.Policies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Prometheus;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration
+	.AddJsonFile($"appsettings.local.json", optional: true)
+	.AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.local.json", optional: true);
 
 builder.Services.AddControllersWithViews();
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
@@ -22,7 +26,10 @@ builder.Services
 	.AddAuthentication()
 	.AddBasicAuthentication(o =>
 	{
-		var settings = builder.Configuration.Get<BasicAuthenticationSettings>();
+		var settings = builder.Configuration
+			.GetSection(nameof(BasicAuthenticationSettings))
+			.Get<BasicAuthenticationSettings>()!;
+
         ArgumentException.ThrowIfNullOrEmpty(settings.UserName);
         ArgumentException.ThrowIfNullOrEmpty(settings.Password);
 		o.UserName = settings.UserName;
@@ -50,28 +57,20 @@ app.UseSerilogRequestLogging();
 
 if (!app.Environment.IsDevelopment())
 {
-	app.UseExceptionHandler("/shared/error");
-	app.UseHsts();
-}
-
-if (app.Environment.IsStaging())
-{
 	app.UseForwardedHeaders(new ForwardedHeadersOptions
 	{
 		ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
 	});
-}
-else if (app.Environment.IsProduction())
-{
-	app.UseHttpsRedirection();
+	app.UseExceptionHandler("/shared/error");
+	app.UseHsts();
 }
 
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseHttpMetrics();
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseHttpMetrics();
 
 app.MapControllerRoute(
 	name: "default",
