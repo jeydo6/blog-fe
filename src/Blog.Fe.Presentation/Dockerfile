@@ -14,11 +14,10 @@ COPY ["src/Blog.Fe.Presentation/Blog.Fe.Presentation.csproj", "src/Blog.Fe.Prese
 RUN dotnet restore "src/Blog.Fe.Presentation/Blog.Fe.Presentation.csproj"
 COPY . .
 
-WORKDIR /app/src/Blog.Fe.Presentation
-RUN dotnet build "Blog.Fe.Presentation.csproj" -c Release -o /app/build
+RUN dotnet build "src/Blog.Fe.Presentation/Blog.Fe.Presentation.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Blog.Fe.Presentation.csproj" -c Release -o /app/publish --no-restore /p:UseAppHost=false
+RUN dotnet publish "src/Blog.Fe.Presentation/Blog.Fe.Presentation.csproj" -c Release -o /app/publish --no-restore /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
