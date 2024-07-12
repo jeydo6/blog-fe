@@ -44,12 +44,12 @@ builder.Services.AddSerilog(cfg => cfg
 
 builder.Services
 	.AddSingleton<IAuthorizationHandler, LocalOriginHandler>()
-	.AddAuthorization(o => o
-		.AddPolicy(LocalOriginRequirement.Name, p =>
-		{
-			p.AddRequirements(new LocalOriginRequirement());
-			p.AddAuthenticationSchemes(BasicAuthenticationDefaults.AuthenticationScheme);
-		}));
+	.AddAuthorizationBuilder()
+    .AddPolicy(LocalOriginRequirement.Name, p =>
+	{
+		p.AddRequirements(new LocalOriginRequirement());
+		p.AddAuthenticationSchemes(BasicAuthenticationDefaults.AuthenticationScheme);
+	});
 
 var app = builder.Build();
 
