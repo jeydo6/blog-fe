@@ -18,6 +18,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{2DB295
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.Fe.Domain", "src\Blog.Fe.Domain\Blog.Fe.Domain.csproj", "{7BB47159-4722-47F0-8E03-6443118B63D7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{B0E0B85C-35C5-47A0-B965-29094F2ACBE1}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\deploy.yml = .github\workflows\deploy.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,5 +46,6 @@ Global
 		{B9E43614-569B-4D3A-97E2-90507878B4E0} = {684E45BE-4EFD-4A83-96A7-8B3D277759DC}
 		{21053D87-34BC-4E81-8124-7B28AB04924E} = {684E45BE-4EFD-4A83-96A7-8B3D277759DC}
 		{7BB47159-4722-47F0-8E03-6443118B63D7} = {684E45BE-4EFD-4A83-96A7-8B3D277759DC}
+		{B0E0B85C-35C5-47A0-B965-29094F2ACBE1} = {2DB29535-51BC-4FF8-90DC-8883B032E29E}
 	EndGlobalSection
 EndGlobal
