@@ -12,7 +12,7 @@ COPY ["src/Blog.Fe.Domain/Blog.Fe.Domain.csproj", "src/Blog.Fe.Domain/"]
 COPY ["src/Blog.Fe.Infrastructure/Blog.Fe.Infrastructure.csproj", "src/Blog.Fe.Infrastructure/"]
 COPY ["src/Blog.Fe.Presentation/Blog.Fe.Presentation.csproj", "src/Blog.Fe.Presentation/"]
 
-RUN dotnet restore "src/Blog.Fe.Presentation/Blog.Fe.Presentation.csproj" -a $TARGETARCH --use-lock-file
+RUN dotnet restore "src/Blog.Fe.Presentation/Blog.Fe.Presentation.csproj" -a $TARGETARCH
 COPY . .
 
 RUN dotnet build "src/Blog.Fe.Presentation/Blog.Fe.Presentation.csproj" -c $BUILD_CONFIGURATION -a $TARGETARCH --no-restore -o build
