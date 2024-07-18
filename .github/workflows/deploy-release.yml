@@ -40,6 +40,7 @@ jobs:
             docker run --detach \
             --name $DOCKER_CONTAINER_NAME \
             --network traefik-network \
+            --volume ${DOCKER_CONTAINER_NAME}-data:/app/data \
             --env ASPNETCORE_ENVIRONMENT=Production \
             --env ASPNETCORE_HTTP_PORTS=5290 \
             --restart unless-stopped \
