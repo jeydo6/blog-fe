@@ -33,10 +33,12 @@ jobs:
       - name: Run Docker image
         run: |
           # Run Docker image
-          GITHUB_REPOSITORY_NAME=$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)
+          DOCKER_CONTAINER_NAME=$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)
           ssh ${{ secrets.PRODUCTION_SSH_USER }}@${{ secrets.PRODUCTION_SSH_HOST }} "
+            docker stop $DOCKER_CONTAINER_NAME
+            docker rm $DOCKER_CONTAINER_NAME
             docker run --detach \
-            --name $GITHUB_REPOSITORY_NAME \
+            --name $DOCKER_CONTAINER_NAME \
             --network traefik-network \
             --env ASPNETCORE_ENVIRONMENT=Production \
             --env ASPNETCORE_HTTP_PORTS=5290 \
