@@ -20,7 +20,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.Fe.Domain", "src\Blog.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{B0E0B85C-35C5-47A0-B965-29094F2ACBE1}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\deploy.yml = .github\workflows\deploy.yml
+		.github\workflows\deploy-release.yml = .github\workflows\deploy-release.yml
 	EndProjectSection
 EndProject
 Global
