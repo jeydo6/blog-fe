@@ -43,6 +43,8 @@ jobs:
             --volume ${DOCKER_CONTAINER_NAME}-data:/app/data \
             --env ASPNETCORE_ENVIRONMENT=Production \
             --env ASPNETCORE_HTTP_PORTS=${{ secrets.PRODUCTION_APP_PORT }} \
+            --env BasicAuthenticationSettings__UserName=${{ secrets.PRODUCTION_APP_AUTH_USER }} \
+            --env BasicAuthenticationSettings__Password=${{ secrets.PRODUCTION_APP_AUTH_PASSWORD }} \
             --restart unless-stopped \
             ${{ github.repository }}
           "
