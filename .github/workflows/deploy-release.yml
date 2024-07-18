@@ -42,7 +42,7 @@ jobs:
             --network traefik-network \
             --volume ${DOCKER_CONTAINER_NAME}-data:/app/data \
             --env ASPNETCORE_ENVIRONMENT=Production \
-            --env ASPNETCORE_HTTP_PORTS=5290 \
+            --env ASPNETCORE_HTTP_PORTS=${{ secrets.PRODUCTION_APP_PORT }} \
             --restart unless-stopped \
             ${{ github.repository }}
           "
