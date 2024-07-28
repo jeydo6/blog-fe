@@ -17,7 +17,7 @@ jobs:
           cache: true
           cache-dependency-path: '**/packages.lock.json'
       - run: |
-          dotnet restore --locked-mode
+          dotnet restore --use-lock-file --locked-mode
       - run: |
           dotnet build --configuration Release --no-restore
       - run: |
