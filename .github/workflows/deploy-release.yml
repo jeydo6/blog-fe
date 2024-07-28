@@ -35,7 +35,9 @@ jobs:
           # Run Docker image
           DOCKER_CONTAINER_NAME=$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)
           ssh ${{ secrets.PRODUCTION_SSH_USER }}@${{ secrets.PRODUCTION_SSH_HOST }} << EOF
-          docker run --rm --detach \
+          docker stop $DOCKER_CONTAINER_NAME
+          docker rm $DOCKER_CONTAINER_NAME
+          docker run --detach \
           --name $DOCKER_CONTAINER_NAME \
           --network traefik-network \
           --volume ${DOCKER_CONTAINER_NAME}-data:/app/data \
