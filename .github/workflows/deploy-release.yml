@@ -34,17 +34,17 @@ jobs:
         run: |
           # Run Docker image
           DOCKER_CONTAINER_NAME=$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)
-          ssh ${{ secrets.PRODUCTION_SSH_USER }}@${{ secrets.PRODUCTION_SSH_HOST }} "
-            docker stop $DOCKER_CONTAINER_NAME
-            docker rm $DOCKER_CONTAINER_NAME
-            docker run --detach \
-            --name $DOCKER_CONTAINER_NAME \
-            --network traefik-network \
-            --volume ${DOCKER_CONTAINER_NAME}-data:/app/data \
-            --env ASPNETCORE_ENVIRONMENT=Production \
-            --env ASPNETCORE_HTTP_PORTS=${{ secrets.PRODUCTION_APP_PORT }} \
-            --env BasicAuthenticationSettings__UserName=${{ secrets.PRODUCTION_APP_AUTH_USER }} \
-            --env BasicAuthenticationSettings__Password=${{ secrets.PRODUCTION_APP_AUTH_PASSWORD }} \
-            --restart unless-stopped \
-            ${{ github.repository }}
-          "
+          ssh ${{ secrets.PRODUCTION_SSH_USER }}@${{ secrets.PRODUCTION_SSH_HOST }} << EOF
+          docker stop $DOCKER_CONTAINER_NAME
+          docker rm $DOCKER_CONTAINER_NAME
+          docker run --detach \
+          --name $DOCKER_CONTAINER_NAME \
+          --network traefik-network \
+          --volume ${DOCKER_CONTAINER_NAME}-data:/app/data \
+          --env ASPNETCORE_ENVIRONMENT=Production \
+          --env ASPNETCORE_HTTP_PORTS=${{ secrets.PRODUCTION_APP_PORT }} \
+          --env BasicAuthenticationSettings__UserName=${{ secrets.PRODUCTION_APP_AUTH_USER }} \
+          --env BasicAuthenticationSettings__Password=${{ secrets.PRODUCTION_APP_AUTH_PASSWORD }} \
+          --restart unless-stopped \
+          ${{ github.repository }}
+          EOF
