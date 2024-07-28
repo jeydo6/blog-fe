@@ -12,4 +12,6 @@ jobs:
     steps:
       - run: |
           # After Build
-          echo ${{ toJSON(github.event) }}
+          BRANCH_NAME=${{ github.event.workflow_run.head_branch }}
+          VERSION_NUMBER=$(echo $BRANCH_NAME | cut -d'/' -f2)
+          echo $VERSION_NUMBER
