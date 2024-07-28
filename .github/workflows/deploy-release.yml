@@ -1,16 +1,15 @@
 name: deploy release
 
 on:
-  workflow_run:
-    workflows: [ "build" ]
-    types:
-      - 'completed'
+  create:
+    branches:
+      - 'release/**'
+  push:
     branches:
       - 'release/**'
 
 jobs:
   build-and-run-docker-image:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
