@@ -1,0 +1,15 @@
+name: after build
+
+on:
+  workflow_run:
+    workflows: ["build"]
+    types:
+      - completed
+
+jobs:
+  after-build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          # After Build
+          echo ${{ toJSON(github.event) }}
