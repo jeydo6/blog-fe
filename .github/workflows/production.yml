@@ -1,16 +1,38 @@
-name: deploy release
+name: development
 
 on:
-  workflow_run:
-    workflows: ["build"]
-    types:
-      - 'completed'
+  push:
     branches:
       - 'release/**'
 
+env:
+  DOTNET_VERSION: '8.x'
+  NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
+
 jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+          cache: true
+          cache-dependency-path: '**/packages.lock.json'
+      - run: |
+          dotnet restore --use-lock-file --locked-mode
+      - run: |
+          dotnet build --configuration Release --no-restore
+      - run: |
+          dotnet test --logger trx --results-directory dotnet-test-results
+      - uses: actions/upload-artifact@v4
+        with:
+            name: dotnet-test-results
+            path: dotnet-test-results
+            retention-days: 7
+
   build-and-run-docker-image:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    needs: build-and-test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -27,8 +49,7 @@ jobs:
       - name: Build and Push Docker image
         run: |
           # Build and Push Docker image
-          BRANCH_NAME=${{ github.event.workflow_run.head_branch }}
-          VERSION_NUMBER=$(echo $BRANCH_NAME | cut -d'/' -f2)
+          VERSION_NUMBER=$(echo $GITHUB_REF_NAME | cut -d'/' -f2)
           docker build --platform linux/amd64 --tag ${{ github.repository }}:latest --tag ${{ github.repository }}:$VERSION_NUMBER .
           docker save ${{ github.repository }} | bzip2 | ssh ${{ secrets.PRODUCTION_SSH_USER }}@${{ secrets.PRODUCTION_SSH_HOST }} docker load
 

@@ -1,6 +1,9 @@
-name: build
+name: development
 
-on: push
+on:
+  push:
+    branches-ignore:
+      - 'release/**'
 
 env:
   DOTNET_VERSION: '8.x'
