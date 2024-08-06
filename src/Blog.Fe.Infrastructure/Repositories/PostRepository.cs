@@ -4,16 +4,17 @@ using System.Threading;
 using System.Threading.Tasks;
 using Blog.Fe.Domain.Entities;
 using Blog.Fe.Domain.Repositories;
-using Blog.Fe.Infrastructure.DataContexts;
+using Blog.Fe.Infrastructure.DbContexts;
 using LinqToDB;
 
 namespace Blog.Fe.Infrastructure.Repositories;
 
 internal sealed class PostRepository : IPostRepository
 {
-	private readonly BlogFeDataContext _db;
+	private readonly DbContext _db;
 	
-	public PostRepository(BlogFeDataContext db) => _db = db;
+	public PostRepository(DbContext db)
+		=> _db = db;
 
 	public Task<Post[]> Get(CancellationToken cancellationToken = default)
 		=> _db.Posts.ToArrayAsync(cancellationToken);

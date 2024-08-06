@@ -1,19 +1,18 @@
 using System.Net;
 using System.Threading.Tasks;
+using Blog.Fe.Presentation.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
-namespace Blog.Fe.Presentation.Policies;
+namespace Blog.Fe.Presentation.Authorization;
 
 internal sealed class LocalOriginHandler : AuthorizationHandler<LocalOriginRequirement>
 {
-    private const string RealIpHeaderName = "X-Real-IP";
     private readonly ILogger<LocalOriginHandler> _logger;
+
     public LocalOriginHandler(ILogger<LocalOriginHandler> logger)
-    {
-        _logger = logger;
-    }
+        => _logger = logger;
 
     protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, LocalOriginRequirement requirement)
     {
@@ -24,9 +23,9 @@ internal sealed class LocalOriginHandler : AuthorizationHandler<LocalOriginRequi
         )
         {
             var remoteIpAddress =
-                httpContext.Request.Headers.TryGetValue(RealIpHeaderName, out var realIpHeaderValue) &&
+                httpContext.Request.TryGetHeaderValue(Constants.RealIpHeaderName, out var realIpHeaderValue) &&
                 IPAddress.TryParse(realIpHeaderValue, out var realIpAddress) ?
-                realIpAddress : httpContext.Connection.RemoteIpAddress;
+                    realIpAddress : httpContext.Connection.RemoteIpAddress;
 
             if (IsLocalNetwork(httpContext.Connection.LocalIpAddress, remoteIpAddress))
             {
@@ -49,7 +48,8 @@ internal sealed class LocalOriginHandler : AuthorizationHandler<LocalOriginRequi
         {
             return true;
         }
-        else if (local is null || remote is null)
+
+        if (local is null || remote is null)
         {
             return false;
         }

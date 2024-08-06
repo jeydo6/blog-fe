@@ -1,6 +1,6 @@
 ﻿using System;
 using Blog.Fe.Domain.Repositories;
-using Blog.Fe.Infrastructure.DataContexts;
+using Blog.Fe.Infrastructure.DbContexts;
 using Blog.Fe.Infrastructure.Migrations;
 using Blog.Fe.Infrastructure.Repositories;
 using FluentMigrator.Runner;
@@ -11,24 +11,35 @@ namespace Blog.Fe.Infrastructure.Extensions;
 
 public static class ServiceCollectionExtension
 {
-	private const string ConnectionStringName = "DbConnectionString";
+	private const string ConnectionStringName = "DefaultConnection";
 
-	public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+	public static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
+		=> services
+			.AddRepositories(configuration)
+			.AddMigrations(configuration);
+
+	public static IServiceCollection AddMigrations(this IServiceCollection services, IConfiguration configuration)
 	{
 		var connectionString = configuration.GetConnectionString(ConnectionStringName);
 		ArgumentException.ThrowIfNullOrEmpty(connectionString);
 		
-		services
+		return services
 			.AddFluentMigratorCore()
 			.ConfigureRunner(builder => builder
 				.AddSQLite()
 				.WithGlobalConnectionString(connectionString)
 				.ScanIn(typeof(InitialMigration).Assembly).For.Migrations())
 			.AddLogging(builder => builder.AddFluentMigratorConsole());
-		
-		services
-			.AddScoped(_ => new BlogFeDataContext(connectionString));
+	}
 
-		services.AddScoped<IPostRepository, PostRepository>();
+	public static IServiceCollection AddRepositories(this IServiceCollection services, IConfiguration configuration)
+	{
+		var connectionString = configuration.GetConnectionString(ConnectionStringName);
+		ArgumentException.ThrowIfNullOrEmpty(connectionString);
+		
+		return services
+			.AddScoped(_ => new DbContext(connectionString))
+			.AddScoped<IPostRepository, PostRepository>()
+			.AddScoped<ILogItemRepository, LogItemRepository>();
 	}
 }

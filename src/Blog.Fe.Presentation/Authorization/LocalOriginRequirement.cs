@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 
-namespace Blog.Fe.Presentation.Policies;
+namespace Blog.Fe.Presentation.Authorization;
 
 internal sealed record LocalOriginRequirement : IAuthorizationRequirement
 {

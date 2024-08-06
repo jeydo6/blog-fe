@@ -4,18 +4,19 @@ using LinqToDB;
 using LinqToDB.Data;
 using LinqToDB.Mapping;
 
-namespace Blog.Fe.Infrastructure.DataContexts;
+namespace Blog.Fe.Infrastructure.DbContexts;
 
-internal sealed class BlogFeDataContext : DataConnection
+internal sealed class DbContext : DataConnection
 {
-	private static readonly MappingSchema _mappingSchema = CreateMappingSchema();
+	private static readonly MappingSchema Schema = CreateMappingSchema();
 	
-	public BlogFeDataContext(string connectionString) : base(CreateDataOptions(connectionString))
+	public DbContext(string connectionString) : base(CreateDataOptions(connectionString))
 	{
 		InlineParameters = true;
 	}
 
 	public ITable<Post> Posts => this.GetTable<Post>();
+	public ITable<LogItem> LogItems => this.GetTable<LogItem>();
 	
 	private static MappingSchema CreateMappingSchema()
 	{
@@ -28,6 +29,12 @@ internal sealed class BlogFeDataContext : DataConnection
 			.Property(e => e.CreatedAt).HasConversion(v => v.ToUnixTimeSeconds(), v => DateTimeOffset.FromUnixTimeSeconds(v))
 			.Property(e => e.ChangedAt).HasConversion(v => v.ToUnixTimeSeconds(), v => DateTimeOffset.FromUnixTimeSeconds(v));
 
+		builder.Entity<LogItem>()
+			.HasTableName(nameof(LogItem))
+			.HasIdentity(e => e.Id)
+			.Property(e => e.CreatedAt).HasConversion(v => v.ToUnixTimeSeconds(), v => DateTimeOffset.FromUnixTimeSeconds(v))
+			.Property(e => e.ChangedAt).HasConversion(v => v.ToUnixTimeSeconds(), v => DateTimeOffset.FromUnixTimeSeconds(v));
+
 		builder.Build();
 
 		return mappingSchema;
@@ -36,5 +43,5 @@ internal sealed class BlogFeDataContext : DataConnection
 	private static DataOptions CreateDataOptions(string connectionString)
 		=> new DataOptions()
 			.UseSQLite(connectionString)
-			.UseMappingSchema(_mappingSchema);
+			.UseMappingSchema(Schema);
 }

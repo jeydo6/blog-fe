@@ -8,11 +8,8 @@ public sealed class SharedController : Controller
 {
 	[Route("error")]
 	[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-	public IActionResult Error()
+	public IActionResult Error() => View(new Error
 	{
-		return View(new Error
-		{
-			RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
-		});
-	}
+		RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+	});
 }
